@@ -5,36 +5,38 @@ using UnityEngine.Networking;
 
 public class WebRequest : MonoBehaviour
 {
-    bool _flag;
+    public GameObject uniWebViewGameObject;
+    public string URI;
+    bool _lead;
     private void Awake()
     {
-        string flagStr = PlayerPrefs.GetString("FirstStart");
+        string leadStr = PlayerPrefs.GetString("lead");
         
         
-        if (flagStr != String.Empty)
+        if (leadStr != String.Empty)
         {
-            Boolean.TryParse(flagStr, out _flag);
+            Boolean.TryParse(leadStr, out _lead);
+            if (_lead == false)
+            {
+                uniWebViewGameObject.SetActive(true);
+            }
         }
         else
         {
-            _flag = false;
-        }
-
-        if (_flag == false)
-        {
-            StartCoroutine(GetRequest("https://giveus.party/whitetest"));
+            StartCoroutine(GetRequest(URI));
         }
     }
 
     private IEnumerator GetRequest(string uri)
     {
         UnityWebRequest webRequest = UnityWebRequest.Get(uri);
-        // Request and wait for the desired page.
+
         yield return webRequest.SendWebRequest();
 
         string[] pages = uri.Split('/');
         int page = pages.Length - 1;
-
+        _lead = false;
+        
         switch (webRequest.result)
         {
             case UnityWebRequest.Result.ConnectionError:
@@ -48,16 +50,21 @@ public class WebRequest : MonoBehaviour
                 if (webRequest.downloadHandler.text != String.Empty)
                 {
                     Debug.Log("Nice");
-                    PlayerPrefs.SetString("Web text", webRequest.downloadHandler.text);
-                    _flag = true;
+                    PlayerPrefs.SetString("endpoint", webRequest.downloadHandler.text);
+                    _lead = true;
                 }
                 break;
+        }
+        
+        if (_lead == false)
+        {
+            uniWebViewGameObject.SetActive(true);
         }
     }
 
     private void OnDisable()
     {
-        PlayerPrefs.SetString("FirstStart",
-            _flag ? Boolean.TrueString : Boolean.FalseString);
+        PlayerPrefs.SetString("lead",
+            _lead ? Boolean.TrueString : Boolean.FalseString);
     }
 }
