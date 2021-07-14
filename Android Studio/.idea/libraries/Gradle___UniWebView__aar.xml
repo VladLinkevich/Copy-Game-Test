@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: :UniWebView:@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/5100417c6fa03067702ed0c052abf343/transformed/jetified-UniWebView/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/5100417c6fa03067702ed0c052abf343/transformed/jetified-UniWebView/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/5100417c6fa03067702ed0c052abf343/transformed/jetified-UniWebView/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
